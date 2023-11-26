@@ -1,0 +1,18 @@
+go 1.21.1
+
+use (
+	./balanced_binary_tree
+	./capturing_rainwater
+	./fibonacci_finder
+	./fuzzbuzz
+	./knapsack
+	./max_product
+	./maximize_trading
+	./product_everything_else
+	./reverse-words
+	./reverse_linkedlist
+	./semiprime
+	./sume_prime_factors
+	./unique_string
+	./xth_number_order
+)
