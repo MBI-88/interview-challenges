@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golang Issues</title>
+    <style>
+        :root {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            box-sizing: border-box;
+            padding: 0%;
+            margin: 0%;
+            --background-Color: radial-gradient(circle, #22c1c3 0%, #527987 100%);
+            --text-color: #000000ce;
+            --arcor-color: #1f4df2d3;
+
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            padding: 0% 0% 0% 0%;
+            align-items: center;
+            color: var(--text-color);
+        }
+
+        .backgroundColor {
+            background: #22c1c3;
+            background: var(--background-Color);
+        }
+
+        .title {
+            padding-top: 10%;
+            font-size: medium;
+            font-weight: 800;
+            font-style: normal;
+            color: var(--text-color);
+        }
+
+        table {
+            display: block;
+            position: relative;
+        }
+
+        table>thead tbody {
+            display: block;
+            position: sticky;
+            text-align: center;
+        }
+
+        a {
+            list-style: none;
+            color: var(--arcor-color);
+
+        }
+        a:hover {
+            color: #e53b3b;
+            transform: scale(1.8);
+        }
+
+        .list {
+            list-style: none;
+        }
+    </style>
+</head>
+
+<body class="backgroundColor">
+    <main class="container">
+        <h1 class="title">Issues {{.TotalCount}}</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>URL</th>
+                    <th>Title</th>
+                    <th>User</th>
+                    <th>Milestone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Items}}
+                <tr>
+                    <td>
+                        <a href="{{.HTMLURL}}">Bug</a>
+                    </td>
+                    <td>{{.Title}}</td>
+                    <td>
+                        {{with .User}}
+                        <ul class="list">
+                            <li>
+                                <a href="{{.HTMLURL}}">{{.Login}}</a>
+                            </li>
+                        </ul>
+                        {{end}}
+                    </td>
+                    <td>
+                        {{with .Milestone}}
+                        <ul class="list">
+                            <li>
+                                <a href="{{.HTMLURL}}">{{.Title}}</a>
+                                {{.State}}
+                            </li>
+                        </ul>
+                        {{end}}
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </main>
+</body>
+
+</html>
