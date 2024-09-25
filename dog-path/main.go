@@ -21,24 +21,30 @@ var (
 	path3 = [4][4]string{
 		{"", "F", "", "F"},
 		{"D", "", "F", ""},
-		{"",  "", "",  ""},
+		{"", "", "", ""},
 		{"F", "", "", "H"},
 	}
 )
 
-func getPositions(m [4][4]string) [][]int {
+func getPositions(m [4][4]string) ([][]int, [][]int, [][]int) {
 	var (
-		pos [][]int
+		rewards [][]int
+		dog     [][]int
+		home    [][]int
 	)
 
 	for i := 0; i < len(m); i++ {
 		for j := 0; j < len(m); j++ {
-			if m[i][j] == "F" || m[i][j] == "H" || m[i][j] == "D" {
-				pos = append(pos, []int{i, j})
+			if m[i][j] == "F" {
+				rewards = append(rewards, []int{i, j})
+			} else if m[i][j] == "H" {
+				home = append(home, []int{i, j})
+			} else if m[i][j] == "D" {
+				dog = append(dog, []int{i, j})
 			}
 		}
 	}
-	return pos
+	return rewards, dog, home
 }
 
 func makeSum(actual, next []int) int {
@@ -49,30 +55,39 @@ func makeSum(actual, next []int) int {
 
 func bestSteps(m [4][4]string) int {
 	var (
-		pos          = getPositions(m)
-		steps        int
-		combinations [][][]int
-		backtrack    func(actual int)
-		acc          []int
-		minimun      = math.MaxInt64
+		rewards, dog, home = getPositions(m)
+		steps              int
+		distances       [][][]int
+		combinations    [][][]int
+		backtrack          func(actual int)
+		acc                []int
+		minimun            = math.MaxInt64
 	)
 
 	backtrack = func(actual int) {
-		if actual == len(pos) {
-			temp := make([][]int, len(pos))
-			copy(temp, pos)
-			combinations = append(combinations, temp)
+		if actual == len(rewards) {
+			temp := make([][]int, len(rewards))
+			copy(temp, rewards)
+			distances = append(distances, temp)
 			return
 		}
 
-		for i := actual; i < len(pos); i++ {
-			backtrack(actual+1)
-			pos[actual], pos[i] = pos[i], pos[actual]
+		for i := actual; i < len(rewards); i++ {
+			backtrack(actual + 1)
+			rewards[actual], rewards[i] = rewards[i], rewards[actual]
 		}
 	}
 
 	backtrack(0)
 
+	for i := 0; i < len(distances); i++ {
+		temp := [][]int{}
+		temp = append(temp, dog...)
+		temp = append(temp, distances[i]...)
+		temp = append(temp, home...)
+		combinations = append(combinations, temp)
+
+	}
 
 	for i := 0; i < len(combinations); i++ {
 		for x := 0; x < len(combinations[i])-1; x++ {
@@ -81,7 +96,6 @@ func bestSteps(m [4][4]string) int {
 		acc = append(acc, steps)
 		steps = 0
 	}
-
 	for _, ac := range acc {
 		if ac < minimun {
 			minimun = ac
