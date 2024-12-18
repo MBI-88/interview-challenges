@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-// Merge struct Big O complexity of O(n*log(n)) worse case
+// Merge struct Big O complexity of O(n*log(n)) worse case O(log(n))
 type Merge struct {
 	Data []int
 }
